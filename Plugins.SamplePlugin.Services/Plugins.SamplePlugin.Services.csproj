@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- See: https://stackoverflow.com/a/43841481/1288109 -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineArgumentsParser" Version="3.0.20" />
+    <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Plugins.SamplePlugin\Plugins.SamplePlugin.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="@echo off&#xD;&#xA;for %25%25x in (&#xD;&#xA;        Plugins&#xD;&#xA;       ) do (&#xD;&#xA;              echo Copying dependencies to %25%25x ...&#xD;&#xA;              xcopy &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)%25%25x\$(OutDir)&quot; /Y /I /R&#xD;&#xA;              xcopy &quot;$(TargetDir)*.deps.json&quot; &quot;$(SolutionDir)%25%25x\$(OutDir)&quot; /Y /I /R&#xD;&#xA;              xcopy &quot;$(TargetDir)*.pdb&quot; &quot;$(SolutionDir)%25%25x\$(OutDir)&quot; /Y /I /R&#xD;&#xA;&#xD;&#xA;              echo ...dependencies copied&#xD;&#xA;       )&#xD;&#xA;&#xD;&#xA;echo Post-build events done for $(ProjectName)" />
+  </Target>
+
+</Project>

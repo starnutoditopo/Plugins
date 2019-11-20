@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Plugins.LocalDbCleaner": {
+      "commandName": "Project",
+      "commandLineArgs": "--thresholdDateTime \"2019-11-31 00:00:00\""
+    }
+  }
+}
